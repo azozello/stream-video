@@ -1,0 +1,53 @@
+@mixin pht_border($size) {
+  border: $size solid black;
+  border-radius: 0;
+}
+
+%pht_margin_center {
+  margin: {
+    left: auto;
+    right: auto;
+  };
+}
+
+%pht_form_item {
+  display: block;
+}
+
+%rnt_center_img {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@for $i from 1 through 30 {
+  .mw-#{$i} {
+    max-width: 1rem * $i;
+  }
+}
+
+.checked {
+  color: orange;
+}
+
+.pht_input {
+  @extend %pht_form_item;
+  @include pht_border(0.1rem);
+  min-height: 2.25rem;
+  width: 100%;
+}
+
+.pht_label {
+  @extend %pht_form_item;
+  font: {
+    size: 1rem;
+    family: Verdana;
+  };
+}
+
+.pht_form_group {
+  @extend %pht_margin_center;
+  max-width: 16rem;
+}

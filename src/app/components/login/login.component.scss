@@ -1,0 +1,105 @@
+@import "~src/assets/scss/_style.scss";
+
+body {
+  background-color: #f5f5f5;
+}
+
+@keyframes fade_in {
+  from  {
+    opacity: 0.0;
+  }
+  to {
+    opacity: 1.0;
+  }
+}
+
+@keyframes fade_out {
+  from  {
+    opacity: 1.0;
+  }
+  to {
+    opacity: 0.0;
+  }
+}
+
+.animate_fade_out {
+  animation-name: fade_out;
+  animation-duration: 700ms;
+  animation-timing-function: linear;
+}
+
+.animate_fade_in {
+  animation-name: fade_in;
+  animation-duration: 700ms;
+  animation-timing-function: linear;
+}
+
+.btn-next {
+  margin-left: auto;
+}
+
+.img-frame {
+  width: 16rem;
+}
+
+.w-18 {
+  left: -2rem;
+  width: 18.75rem;
+}
+
+.fs {
+  font-size: 0.8rem;
+}
+
+.dn {
+  display: none;
+}
+
+.form-wrapper {
+  max-width: 30%;
+  min-width: 18.75rem;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 15px 35px rgba(50,50,93,.1),0 5px 15px rgba(0,0,0,.07);
+}
+
+.form-group {
+  position:relative;
+  & + .form-group {
+    margin-top: 30px;
+  }
+}
+
+.form-label {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  color: #999;
+  background-color: #fff;
+  z-index: 10;
+  transition: transform 150ms ease-out, font-size 150ms ease-out;
+}
+
+.focused .form-label {
+  transform: translateY(-125%);
+  font-size: 0.75em;
+}
+
+.form-input {
+  position: relative;
+  padding: 12px 0 5px 0;
+  width: 100%;
+  outline: 0;
+  border: 0;
+  box-shadow: 0 1px 0 0 #e5e5e5;
+  transition: box-shadow 150ms ease-out;
+
+  &:focus {
+    box-shadow: 0 2px 0 0 #5bc0de;
+  }
+}
+
+.form-input.filled {
+  box-shadow: 0 2px 0 0 lightgreen;
+}

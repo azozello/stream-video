@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row mb-5 justify-content-center">
+    <div class="col-auto">
+      <div class="form-wrapper mt-5" #enterEmail>
+        <img src="../../../assets/images/login-bg.jpg" class="img-fluid img-frame mt-0 mb-4">
+        <form [formGroup]="loginForm" class="form">
+          <div class="form-group mb-0" #formEmail>
+            <label class="form-label"
+                   for="email">Enter email</label>
+            <input id="email"
+                   #email
+                   formControlName="email"
+                   (focus)="onFocusEmail()"
+                   (blur)="onBlurEmail()"
+                   class="form-input"
+                   type="text"/>
+            <p class="mt-2 fs"><a href="#">Forgot email?</a></p>
+
+            <div class="row mt-5 mb-0">
+              <div class="col-6">
+                <button class="btn btn-outline-info">Register</button>
+              </div>
+              <div class="col-6">
+                <div class="row justify-content-end">
+                  <div class="col-auto">
+                    <button (click)="next()" class="btn btn-info btn-next">Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <div class="card w-18 mt-5 dn" #enterPassword>
+        <img class="card-img-top" src="../../../assets/images/card.jpg">
+        <div class="card-body">
+          <form [formGroup]="loginForm" class="form">
+            <div class="form-group mb-0" #formPassword>
+              <label class="form-label"
+                     for="password">Enter password</label>
+              <input id="password"
+                     #password
+                     formControlName="password"
+                     (focus)="onFocusPassword()"
+                     (blur)="onBlurPassword()"
+                     class="form-input"
+                     type="text"/>
+
+              <div class="row mt-4 mb-0 justify-content-end">
+                <div class="col-6">
+                  <button (click)="prev()" class="btn btn-outline-info">Back</button>
+                </div>
+                <div class="col-6">
+                  <div class="row justify-content-end">
+                    <div class="col-auto">
+                      <a [routerLink]="['']">
+                        <button class="btn btn-info btn-next">Log in</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

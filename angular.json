@@ -61,7 +61,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "stream-video:build"
+            "browserTarget": "stream-video:build",
+            "port": 1488
           },
           "configurations": {
             "production": {
