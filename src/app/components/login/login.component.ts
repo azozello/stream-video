@@ -1,5 +1,9 @@
 import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../../services/auth.service';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +24,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private renderer: Renderer2,
+              private router: Router,
+              private _auth: AuthService,
               private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -28,6 +34,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!this._auth.isTokenExpired()) {
+      this.router.navigate(['']);
+    }
   }
 
   public onFocusEmail() {
@@ -35,7 +44,6 @@ export class LoginComponent implements OnInit {
   }
 
   public onBlurEmail() {
-    console.log(this.loginForm.controls['email'].value + 'ada');
     if (this.loginForm.controls['email'].value === '') {
       this.renderer.removeClass(this.email.nativeElement, 'filled');
       this.renderer.removeClass(this.formEmail.nativeElement, 'focused');
@@ -49,7 +57,6 @@ export class LoginComponent implements OnInit {
   }
 
   public onBlurPassword() {
-    console.log(this.loginForm.controls['password'].value + 'ada');
     if (this.loginForm.controls['password'].value === '') {
       this.renderer.removeClass(this.password.nativeElement, 'filled');
       this.renderer.removeClass(this.formPassword.nativeElement, 'focused');
@@ -76,6 +83,17 @@ export class LoginComponent implements OnInit {
       this.renderer.addClass(this.enterEmail.nativeElement, 'animate_fade_in');
     }, 700);
     this.clearFades();
+  }
+
+  public login() {
+    this._auth.loginRequest(
+      this.loginForm.controls['email'].value,
+      this.loginForm.controls['password'].value).subscribe(
+        data => {
+          this._auth.login(data);
+          this.router.navigate(['/']);
+        }
+    );
   }
 
   private clearFades() {
