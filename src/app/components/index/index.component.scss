@@ -1,25 +1,5 @@
 
-.video-player-container {
-  width: 720px;
-
-  video {
-    width: 720px;
-  }
-
-
-  .content {
-    .stream-author-information {
-      font-size: 1.45em;
-      line-height: 1.45em;
-
-      h2 {
-        span {
-          vertical-align: middle;
-        }
-      }
-    }
-  }
-  @media screen and (max-width: 768px) {
-    width: 100vw;
-  }
+.sv_video {
+  width: 100%;
+  height: auto;
 }

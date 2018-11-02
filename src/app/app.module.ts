@@ -16,8 +16,7 @@ import {JwtModule} from '@auth0/angular-jwt';
 import {reducers} from './store/reducers';
 import {StoreModule} from '@ngrx/store';
 import {JwtInterceptor} from './interceptors/JwtInterceptor';
-import {EffectsModule} from '@ngrx/effects';
-import {LoadEffect} from './store/effects/loadEffect';
+import { StreamPlayerDirective } from './directives/stream-player.directive';
 
 const TOKEN_NAME = 'Authorization';
 
@@ -31,6 +30,7 @@ export function tokenGetter() {
     LoginComponent,
     RegisterComponent,
     IndexComponent,
+    StreamPlayerDirective,
   ],
   imports: [
     AppRoutingModule,
@@ -50,7 +50,7 @@ export function tokenGetter() {
     MatButtonModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([LoadEffect])
+    // EffectsModule.forRoot([LoadEffect])
   ],
   providers: [
     {

@@ -13,6 +13,7 @@ export class LoadEffect {
   @Effect()
   loadSecuredData$ = this.actions.ofType(UserAction.SET_ROLE).pipe(
     switchMap(() => {
+      console.log('Effect');
       return this._auth
         .loadSecuredData()
         .pipe(

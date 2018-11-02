@@ -1,1 +1,56 @@
-<h1 class="md-title">HELLO!</h1>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            Add new stream
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="row justify-content-between align-items-end">
+            <div class="col-4">
+              <form [formGroup]="createStreamForm">
+                <div class="form-group">
+                  <label>Choose stream</label>
+                  <select class="form-control" formControlName="newTitle">
+                    <option [value]="stream.id" *ngFor="let stream of availableStreams">
+                      {{stream.title}}
+                    </option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <button class="btn btn-outline-primary w-100" (click)="createStream()">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-100"></div>
+
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mt-5" *ngFor="let stream of activeStreams">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <h4 class="card-title mb-0">
+                {{stream.title}}
+              </h4>
+            </div>
+            <div class="col-auto">
+              <button type="button" class="close" (click)="deleteStream(stream.id)">&times;</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <video class="sv_video" appStreamPlayer [source]="stream.source" controls></video>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,11 @@ export function reducer(state = InitialState, action: UserAction.Action) {
         ...state,
         userRole: action.payload
       };
+    case UserAction.SET_EMAIL:
+      return {
+        ...state,
+        email: action.payload
+      };
     default:
       return state;
   }
