@@ -50,7 +50,7 @@ export class IndexComponent implements OnInit {
   createStream() {
     this.availableStreams.forEach(
       stream => {
-        if (`${stream.id}` === this.createStreamForm.controls['newTitle'].value) {
+        if (`${stream.id}` === this.createStreamForm.controls['newTitle'].value && this.activeStreams.indexOf(stream) === -1) {
           this.activeStreams.push(stream);
         }
       }
