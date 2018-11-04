@@ -8,7 +8,6 @@ import {RegisterComponent} from './components/register/register.component';
 import {IndexComponent} from './components/index/index.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatDividerModule, MatListModule, MatToolbarModule} from '@angular/material';
 import {CommonModule} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {JwtModule} from '@auth0/angular-jwt';
@@ -16,7 +15,13 @@ import {JwtModule} from '@auth0/angular-jwt';
 import {reducers} from './store/reducers';
 import {StoreModule} from '@ngrx/store';
 import {JwtInterceptor} from './interceptors/JwtInterceptor';
-import { StreamPlayerDirective } from './directives/stream-player.directive';
+import {StreamPlayerDirective} from './directives/stream-player.directive';
+import {HeaderComponent} from './components/header/header.component';
+import {VgBufferingModule} from 'videogular2/buffering';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgCoreModule} from 'videogular2/core';
+import {VgStreamingModule} from 'videogular2/streaming';
 
 const TOKEN_NAME = 'Authorization';
 
@@ -31,6 +36,7 @@ export function tokenGetter() {
     RegisterComponent,
     IndexComponent,
     StreamPlayerDirective,
+    HeaderComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -43,13 +49,13 @@ export function tokenGetter() {
       }
     }),
     HttpClientModule,
-    MatToolbarModule,
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    MatButtonModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
+    VgStreamingModule
     // EffectsModule.forRoot([LoadEffect])
   ],
   providers: [

@@ -1,21 +1,33 @@
-<div class="container mt-5">
+<app-header></app-header>
+
+<div class="container mt-3">
   <div class="row">
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mt-5">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mt-3">
       <div class="card">
         <div class="card-header">
           <h4 class="card-title mb-0">
-            Add new stream
+            Add new layout
           </h4>
         </div>
+
         <div class="card-body">
           <div class="row justify-content-between align-items-end">
             <div class="col-6 col-md-4">
-              <form [formGroup]="createStreamForm">
+              <form [formGroup]="addLayoutForm">
                 <div class="form-group">
-                  <label>Choose stream</label>
-                  <select class="form-control" formControlName="newTitle">
-                    <option [value]="stream.id" *ngFor="let stream of availableStreams">
-                      {{stream.title}}
+                  <label>Choose layout</label>
+                  <select class="form-control" formControlName="columns">
+                    <option value="1">
+                      One column
+                    </option>
+                    <option value="2">
+                      Two columns
+                    </option>
+                    <option value="3">
+                      Three columns
+                    </option>
+                    <option value="4">
+                      Four columns
                     </option>
                   </select>
                 </div>
@@ -23,7 +35,7 @@
             </div>
             <div class="col-6 col-md-4">
               <div class="form-group">
-                <button class="btn btn-outline-primary w-100" (click)="createStream()">Add</button>
+                <button class="btn btn-outline-info w-100" (click)="createLayout()">Add</button>
               </div>
             </div>
           </div>
@@ -31,24 +43,167 @@
       </div>
     </div>
 
-    <div class="w-100"></div>
-
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mt-5" *ngFor="let stream of activeStreams">
-      <div class="card">
-        <div class="card-header">
-          <div class="row justify-content-between">
-            <div class="col-auto">
+    <div class="col-12 mt-3 mb-3" *ngFor="let layout of layouts">
+      <div class="row justify-content-end">
+        <div class="col-12 mb-2 mr-2">
+          <button type="button"
+                  class="close"
+                  data-toggle="modal"
+                  (click)="unique = layout.unique; closing_streams = layout.streams; createStreamForm.reset()"
+                  data-target="#closeLayout">&times;</button>
+        </div>
+        <div [ngClass]="layout.class" *ngFor="let stream of layout.streams">
+          <div class="card">
+            <div class="card-header">
               <h4 class="card-title mb-0">
                 {{stream.title}}
               </h4>
             </div>
-            <div class="col-auto">
-              <button type="button" class="close" (click)="deleteStream(stream.id)">&times;</button>
+
+            <div class="card-body">
+              <div *ngIf="stream.active; else addStream">
+                <vg-player>
+                  <video #media
+                         #vgHls="vgHls"
+                         [vgMedia]="media"
+                         [vgHls]="stream.source"
+                         id="singleVideo"
+                         controls>
+                  </video>
+                </vg-player>
+              </div>
+
+              <ng-template #addStream>
+                <img (click)="addStreamSource(stream.id, layout.unique)"
+                     data-toggle="modal"
+                     data-target="#createModal"
+                     src="../../../assets/images/plus.png"
+                     class="img-fluid rounded-circle">
+              </ng-template>
             </div>
           </div>
         </div>
-        <div class="card-body">
-          <video class="sv_video" appStreamPlayer [source]="stream.source" controls></video>
+      </div>
+    </div>
+
+    <!--<div class="col-12 col-md-10 col-lg-8 col-xl-6 mt-5" *ngFor="let stream of activeStreams">-->
+      <!--<div class="card">-->
+        <!--<div class="card-header">-->
+          <!--<div class="row justify-content-between">-->
+            <!--<div class="col-auto">-->
+              <!--<h4 class="card-title mb-0">-->
+                <!--{{stream.title}}-->
+              <!--</h4>-->
+            <!--</div>-->
+            <!--<div class="col-auto">-->
+              <!--<button type="button" class="close" (click)="deleteStream(stream.id)">&times;</button>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="card-body">-->
+          <!--<video class="sv_video"-->
+                 <!--appStreamPlayer -->
+                 <!--[source]="stream.source" -->
+                 <!--controls></video>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  </div>
+</div>
+
+<!-- Close layout modal -->
+<div #cloaseModal class="modal" id="closeLayout">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Confirm closing streams: </h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <h5 class="pl-2 mt-1 mb-1" *ngFor="let closing_stream of closing_streams">{{closing_stream.title}}</h5>
+      </div>
+
+      <div class="p-3 border">
+        <div class="row justify-content-between">
+          <div class="col-4">
+            <button type="button"
+                    class="btn btn-outline-info w-100 p-1"
+                    data-dismiss="modal">No</button>
+          </div>
+          <div class="col-4">
+            <button type="button"
+                    class="btn btn-outline-danger w-100 p-1"
+                    (click)="deleteLayout()"
+                    data-dismiss="modal">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Create stream modal-->
+<div #createModal class="modal" id="createModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Create new stream</h4>
+        <button type="button"
+                class="close"
+                (click)="createStreamForm.reset()"
+                data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="createStreamForm">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Choose type</label>
+                <select class="form-control" formControlName="type">
+                  <option [value]="'hls'">
+                    HLS
+                  </option>
+                  <option [value]="'dash'">
+                    DASH
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label>Choose title</label>
+                <input class="form-control" type="text" formControlName="title">
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-group">
+                <label>Choose source</label>
+                <input class="form-control" type="text" formControlName="source">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="p-3 border">
+        <div class="row justify-content-between">
+          <div class="col-4">
+            <button type="button"
+                    (click)="createStreamForm.reset()"
+                    class="btn btn-outline-info w-100 p-1"
+                    data-dismiss="modal">Cancel</button>
+          </div>
+          <div class="col-4">
+            <button type="button"
+                    class="btn btn-outline-success w-100 p-1"
+                    [disabled]="!createStreamForm.valid"
+                    (click)="createStream()"
+                    data-dismiss="modal">Create</button>
+          </div>
         </div>
       </div>
     </div>
