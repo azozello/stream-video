@@ -30,6 +30,7 @@ export class StreamingPlayerComponent implements OnInit {
 
   bitrates: BitrateOption[];
 
+  // TODO: Just list of working (at least 1 of them) streams
   streams: IMediaStream[] = [
     {
       type: 'vod',
@@ -72,8 +73,6 @@ export class StreamingPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.currentStream = this.stream;
-    console.log(this.currentStream);
-    console.log(this.stream);
   }
 
   setBitrate(option: BitrateOption) {
