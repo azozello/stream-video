@@ -64,12 +64,29 @@
               <div *ngIf="stream.active; else addStream">
                 <div *ngIf="stream.hls; else dashOrVod">
                   <vg-player>
+                    <vg-overlay-play></vg-overlay-play>
+                    <vg-buffering></vg-buffering>
+
+                    <vg-controls>
+                      <vg-play-pause></vg-play-pause>
+
+                      <vg-scrub-bar>
+                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                      </vg-scrub-bar>
+
+                      <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+
+                      <vg-mute></vg-mute>
+                      <vg-volume></vg-volume>
+
+                      <vg-fullscreen></vg-fullscreen>
+                    </vg-controls>
                     <video #media
                            #vgHls="vgHls"
                            [vgMedia]="media"
                            [vgHls]="stream.source"
-                           id="singleVideo"
-                           controls>
+                           id="singleVideo">
                     </video>
                   </vg-player>
                 </div>
