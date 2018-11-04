@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="container mt-3">
+<div #root class="container mt-3">
   <div class="row">
     <div class="col-12 col-md-10 col-lg-8 col-xl-6 mt-3">
       <div class="card">
@@ -49,7 +49,7 @@
           <button type="button"
                   class="close"
                   data-toggle="modal"
-                  (click)="unique = layout.unique; closing_streams = layout.streams; createStreamForm.reset()"
+                  (click)="unique = layout.unique; closing_streams = layout.streams; createStreamForm.reset(); openModal(closeModal)"
                   data-target="#closeLayout">&times;</button>
         </div>
         <div [ngClass]="layout.class" *ngFor="let stream of layout.streams">
@@ -75,8 +75,6 @@
 
               <ng-template #addStream>
                 <img (click)="addStreamSource(stream.id, layout.unique)"
-                     data-toggle="modal"
-                     data-target="#createModal"
                      src="../../../assets/images/plus.png"
                      class="img-fluid rounded-circle">
               </ng-template>
@@ -89,12 +87,15 @@
 </div>
 
 <!-- Close layout modal -->
-<div #cloaseModal class="modal" id="closeLayout">
+<div #closeModal class="modal" id="closeLayout">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Confirm closing streams: </h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button"
+                class="close"
+                (click)="closeModalWindow(closeModal)"
+                data-dismiss="modal">&times;</button>
       </div>
 
       <div class="modal-body">
@@ -105,13 +106,14 @@
         <div class="row justify-content-between">
           <div class="col-4">
             <button type="button"
+                    (click)="closeModalWindow(closeModal)"
                     class="btn btn-outline-info w-100 p-1"
                     data-dismiss="modal">No</button>
           </div>
           <div class="col-4">
             <button type="button"
                     class="btn btn-outline-danger w-100 p-1"
-                    (click)="deleteLayout()"
+                    (click)="deleteLayout(); closeModalWindow(closeModal)"
                     data-dismiss="modal">Yes</button>
           </div>
         </div>
@@ -128,7 +130,7 @@
         <h4 class="modal-title">Create new stream</h4>
         <button type="button"
                 class="close"
-                (click)="createStreamForm.reset()"
+                (click)="createStreamForm.reset(); closeModalWindow(createModal)"
                 data-dismiss="modal">&times;</button>
       </div>
 
@@ -170,7 +172,7 @@
         <div class="row justify-content-between">
           <div class="col-4">
             <button type="button"
-                    (click)="createStreamForm.reset()"
+                    (click)="createStreamForm.reset(); closeModalWindow(createModal)"
                     class="btn btn-outline-info w-100 p-1"
                     data-dismiss="modal">Cancel</button>
           </div>
@@ -178,7 +180,7 @@
             <button type="button"
                     class="btn btn-outline-success w-100 p-1"
                     [disabled]="!createStreamForm.valid"
-                    (click)="createStream()"
+                    (click)="createStream(); closeModalWindow(createModal)"
                     data-dismiss="modal">Create</button>
           </div>
         </div>
@@ -186,3 +188,5 @@
     </div>
   </div>
 </div>
+
+<div #curtain class="modal-backdrop show"></div>

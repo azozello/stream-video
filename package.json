@@ -29,8 +29,6 @@
     "dashjs": "^2.9.2",
     "font-awesome": "^4.7.0",
     "hls.js": "^0.11.0",
-    "jquery": "^3.3.1",
-    "popper.js": "^1.14.4",
     "rxjs": "^6.3.3",
     "videogular2": "^6.3.0",
     "zone.js": "~0.8.26"

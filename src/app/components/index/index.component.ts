@@ -5,10 +5,8 @@ import {Store} from '@ngrx/store';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Stream} from '../../store/models/stream';
 import {Layout} from '../../store/models/layout';
-import 'bootstrap';
-import 'jquery';
 
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {BitrateOption, VgAPI} from 'videogular2/core';
 import {Subscription} from 'rxjs';
 import {IDRMLicenseServer} from 'videogular2/streaming';
@@ -22,6 +20,12 @@ import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
+
+  @ViewChild('curtain') curtain;
+  @ViewChild('root') root;
+
+  @ViewChild('closeModal') closeModal;
+  @ViewChild('createModal') createModal;
 
   closing_streams: Stream[] = [];
   unique = -1;
@@ -38,6 +42,7 @@ export class IndexComponent implements OnInit {
   layouts: Layout[];
 
   constructor(private _auth: AuthService,
+              private renderer: Renderer2,
               private fb: FormBuilder,
               private store: Store<fromRoot.State>) {
     this.createStreamForm = this.fb.group({
@@ -58,7 +63,6 @@ export class IndexComponent implements OnInit {
         this.availableStreams = data;
       }
     );
-
   }
 
   createStream() {
@@ -68,10 +72,6 @@ export class IndexComponent implements OnInit {
     currentStream.title = this.createStreamForm.controls['title'].value;
     currentStream.source = this.createStreamForm.controls['source'].value;
     currentStream.active = true;
-
-    console.log(this.createStreamForm.controls['type'].value);
-    console.log(this.createStreamForm.controls['title'].value);
-    console.log(this.createStreamForm.controls['source'].value);
   }
 
   createLayout() {
@@ -97,6 +97,8 @@ export class IndexComponent implements OnInit {
   addStreamSource(streamID, layoutID) {
     this.streamID = streamID;
     this.layoutID = layoutID;
+
+    this.openModalWindow(this.createModal);
   }
 
   deleteLayout() {
@@ -109,5 +111,32 @@ export class IndexComponent implements OnInit {
       }
     );
     this.layouts = new_layouts;
+  }
+
+  public closeModalWindow(el) {
+    this.renderer.setStyle(el, 'display', 'none');
+    this.renderer.setStyle(this.curtain.nativeElement, 'display', 'none');
+    this.renderer.removeClass(this.getBody(), 'modal-open');
+  }
+
+  public openModal(el) {
+    this.renderer.setStyle(el, 'display', 'block');
+    this.renderer.setStyle(this.curtain.nativeElement, 'display', 'block');
+    this.renderer.addClass(this.getBody(), 'modal-open');
+  }
+
+  private openModalWindow(el) {
+    this.renderer.setStyle(el.nativeElement, 'display', 'block');
+    this.renderer.setStyle(this.curtain.nativeElement, 'display', 'block');
+    this.renderer.addClass(this.getBody(), 'modal-open');
+  }
+
+  // TODO: Ježiš maria...
+  private getBody() {
+    let body = this.root.nativeElement.parentElement;
+    while (body.parentElement !== null && body.parentElement.parentElement !== null) {
+      body = body.parentElement;
+    }
+    return body;
   }
 }

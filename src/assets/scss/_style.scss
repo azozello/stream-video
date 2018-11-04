@@ -51,3 +51,21 @@
   @extend %pht_margin_center;
   max-width: 16rem;
 }
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+  &.show {
+    opacity: 0.6;
+  }
+}
