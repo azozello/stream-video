@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
 import {RegisterComponent} from './components/register/register.component';
 import {IndexComponent} from './components/index/index.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -22,6 +22,7 @@ import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgControlsModule} from 'videogular2/controls';
 import {VgCoreModule} from 'videogular2/core';
 import {VgStreamingModule} from 'videogular2/streaming';
+import { StreamingPlayerComponent } from './components/streaming-player/streaming-player.component';
 
 const TOKEN_NAME = 'Authorization';
 
@@ -37,12 +38,14 @@ export function tokenGetter() {
     IndexComponent,
     StreamPlayerDirective,
     HeaderComponent,
+    StreamingPlayerComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter

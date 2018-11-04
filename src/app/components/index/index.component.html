@@ -62,15 +62,20 @@
 
             <div class="card-body">
               <div *ngIf="stream.active; else addStream">
-                <vg-player>
-                  <video #media
-                         #vgHls="vgHls"
-                         [vgMedia]="media"
-                         [vgHls]="stream.source"
-                         id="singleVideo"
-                         controls>
-                  </video>
-                </vg-player>
+                <div *ngIf="stream.hls; else dashOrVod">
+                  <vg-player>
+                    <video #media
+                           #vgHls="vgHls"
+                           [vgMedia]="media"
+                           [vgHls]="stream.source"
+                           id="singleVideo"
+                           controls>
+                    </video>
+                  </vg-player>
+                </div>
+                <ng-template #dashOrVod>
+                  <app-streaming-player [stream]="stream"></app-streaming-player>
+                </ng-template>
               </div>
 
               <ng-template #addStream>
@@ -146,6 +151,9 @@
                   </option>
                   <option [value]="'dash'">
                     DASH
+                  </option>
+                  <option [value]="'vod'">
+                    VOD
                   </option>
                 </select>
               </div>

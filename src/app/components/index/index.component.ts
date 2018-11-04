@@ -71,7 +71,13 @@ export class IndexComponent implements OnInit {
 
     currentStream.title = this.createStreamForm.controls['title'].value;
     currentStream.source = this.createStreamForm.controls['source'].value;
+
+    currentStream.hls = this.createStreamForm.controls['type'].value === 'hls';
+    currentStream.type = this.createStreamForm.controls['type'].value;
+    
     currentStream.active = true;
+
+    this.createStreamForm.reset();
   }
 
   createLayout() {

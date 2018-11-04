@@ -4,6 +4,7 @@ import {IndexComponent} from './components/index/index.component';
 import {LoginComponent} from './components/login/login.component';
 import {RegisterComponent} from './components/register/register.component';
 import {AuthGuard} from './guards/auth.guard';
+import {StreamingPlayerComponent} from './components/streaming-player/streaming-player.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'show',
+    component: StreamingPlayerComponent
   },
   {
     path: 'register',
