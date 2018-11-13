@@ -6,20 +6,14 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Stream} from '../../store/models/stream';
 import {Layout} from '../../store/models/layout';
 
-import {Component, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {BitrateOption, VgAPI} from 'videogular2/core';
-import {Subscription} from 'rxjs';
-import {IDRMLicenseServer} from 'videogular2/streaming';
-import {VgDASH} from 'videogular2/src/streaming/vg-dash/vg-dash';
-import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
-
+import {Component, OnChanges, OnInit, Renderer2, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit, OnChanges {
 
   @ViewChild('curtain') curtain;
   @ViewChild('root') root;
@@ -29,6 +23,8 @@ export class IndexComponent implements OnInit {
 
   closing_streams: Stream[] = [];
   unique = -1;
+
+  test = this.store.select(fromRoot.getUserState);
 
   availableStreams: Stream[];
 
@@ -53,11 +49,23 @@ export class IndexComponent implements OnInit {
     this.addLayoutForm = this.fb.group({
       columns: [2, Validators.required]
     });
+
+    this.store.select(fromRoot.getUserState).subscribe(
+      data => {
+        console.log(data);
+      }
+    );
+
     this.availableStreams = [];
     this.layouts = [];
   }
 
+  ngOnChanges(event) {
+    console.log(event);
+  }
+
   ngOnInit() {
+    console.log('Init');
     this.store.select(fromRoot.getStreamsList).subscribe(
       data => {
         this.availableStreams = data;
@@ -74,7 +82,6 @@ export class IndexComponent implements OnInit {
 
     currentStream.hls = this.createStreamForm.controls['type'].value === 'hls';
     currentStream.type = this.createStreamForm.controls['type'].value;
-    
     currentStream.active = true;
 
     this.createStreamForm.reset();

@@ -6,7 +6,7 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title mb-0">
-            Add new layout
+            Add new layout {{test['id'] | async}} {{test.id | async}}
           </h4>
         </div>
 
@@ -63,7 +63,7 @@
             <div class="card-body">
               <div *ngIf="stream.active; else addStream">
                 <div *ngIf="stream.hls; else dashOrVod">
-                  <vg-player>
+                  <vg-player #test_variable>
                     <vg-overlay-play></vg-overlay-play>
                     <vg-buffering></vg-buffering>
 
